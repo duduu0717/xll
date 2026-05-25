@@ -1,0 +1,22 @@
+{
+    "users":  [
+    {    
+        "id": 1,
+        "name": "李宇刚",
+        "hometown": "南昌",
+        "nickname": "东理薛之谦"
+    }, 
+    {
+        "id": 2,
+        "name": "胡航",
+        "hometown": "南昌",
+        "nickname": "航哥"
+    },
+    {
+        "id": 3,
+        "name": "赖庆庆",
+        "hometown": "信丰",
+        "nickname": "橙帅"
+    }
+    ]
+}
