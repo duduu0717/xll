@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    var myName //等于undefined
+    myName = '极客时间'
+    //完整的函数声明，没有涉及赋值操作，声明前后都能正常调用
+    function foo() {
+      console.log('foo')
+    }
+    // 函数表达式，涉及赋值操作，var bar 变量声明提升
+    var bar = function () {
+      console.log('bar')
+    }
+  </script>
+</body>
+
+</html>

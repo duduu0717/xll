@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 编译阶段，准备好作用域
+    showName()
+    console.log(myName)
+    var myName = 'AAA'
+    function showName() {
+      // 为showName编译做准备
+      var a = 1
+      console.log('函数showName被执行了')
+    }
+
+  </script>
+</body>
+
+</html>
