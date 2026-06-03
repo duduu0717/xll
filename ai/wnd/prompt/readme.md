@@ -64,6 +64,5 @@ str是变量，可以被重新赋值
 -get_response(prompt, model='')
 -temperature 控制模型的随机性
 -max_tokens 控制模型的输出长度
-
 -f“”“”“”支持多行字符，嵌套变量
  可以成字符串模板

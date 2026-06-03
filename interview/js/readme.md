@@ -22,7 +22,13 @@
  // true 保留
  // false 不保留
  return true/false
+-sort()排序
 
+## 时间复杂度和空间复杂度
+O(n^2) 两重循环，fliter，indexOf
+O(nlogn) 排序，相邻
+O(n) 空间换时间 对象字面量 hashmap
+O(1) 常量
 
 
  

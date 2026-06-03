@@ -12,8 +12,16 @@ function unique(arr) {
     obj = {};  //对象字面量
   for (let i = 0; i < arr.length; i++) {
     // get读操作 动态看待
+    //arr[i]当前项 作为key 变量
+    //obj[varible] 变量作为key
+    //.name 常量
     if (!obj[arr[i]]) {
+      res.push(arr[i]);
+      obj[arr[i]] = 1;
+    }else{
+      obj[arr[i]]++;
     }
 
   }
+  return res;
 }
