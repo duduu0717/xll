@@ -24,3 +24,8 @@ fetch
   dns解析：将域名转换为ip地址
  -api url endpoint,配置管理 
   api请求的终点
+  -async/await 控制了执行流程
+   -先等到它请求完数据接口
+  -json 数组->tr 字符串的数组（map）
+
+  查看mdn官方文档 详细了解每个api的用法
