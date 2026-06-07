@@ -29,3 +29,18 @@ es6是javascript的最新版本，新增了很多语法特性，使javascript更
  -import from
  -export default
  -export
+
+
+
+## nlp任务
+- 情感分类 sentiment analysis
+ 正面/负面/中性
+ 电商等行业中非常重要 客服服务，预警，产品质检
+
+- 信息提取 information extraction
+- 主题推断 topic detection
+- 文本总结 text summarization
+ 老板，行政岗位，小编 需要对长文本进行总结，提取出信息，减少工作量
+仅用几分钟，我们就可以构建多个用于对文本进行推理的系统，而以前需要熟练的机器学习人员数天到数周的时间
+让我们兴奋，可以使用prompt构建nlp系统
+
