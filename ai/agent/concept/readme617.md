@@ -38,3 +38,4 @@ llm就知道如何回答
 openai 提供了接口 tools
 tool函数（llm 理解 需要的参数）
 结果在交给llm，在completion一次
+1
