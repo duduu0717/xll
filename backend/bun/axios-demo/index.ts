@@ -4,6 +4,7 @@ import axios, { HttpStatusCode } from 'axios';
 import { version } from 'bun';
 import dotenv from 'dotenv';
 dotenv.config();
+console.log(process.env.DEEPSEEK_BASE_URL);
 async function chat() {
   // llm 可能会出错，异常
   // timeout network ，llm 忙 apiKey
