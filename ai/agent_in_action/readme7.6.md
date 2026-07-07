@@ -52,7 +52,7 @@ MCP/RAG/Skills
  description 详细功能，覆盖场景，参数需求
  schema 参数约束，参数类型，参数描述。tool和llm要调用此参数必须提供schema约定的参数
 - tool
- llm有自知之明，当要调用tool的时候，不生成，停下来告诉用户tool_calls要调用的工具列表，id，name，arguments 多个工具 id关联tool 函数调用结果 需要历史会话列表 才能组成完整的任务上下文
+ llm有自知之明，当要调用tool的时候，不生成，停下来告诉用户tool_calls要调用的工具列表，id，name，arguments 多个工具 id关联tool 函数调用结果 需要加入历史会话列表 才能组成完整的任务上下文
  tool是异步的，llm哪个任务细节由哪个工具执行，id关联 
  llm基于自然语言的
 
