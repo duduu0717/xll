@@ -8,8 +8,8 @@ import {
 } from 'node:child_process';
 // mini cursor  I/O, 命令行 
 // agent tool, 实现自动化 
-const command = 'ls -la';  // command linux 命令 shell 脚本
-const command1 = 'pnpm create react-todo-app --template vite';
+// const command = 'ls -la';  // command linux 命令 shell 脚本
+const command = 'npm init vite react-todo-app --template react-ts';
 // 切割一下， 第一项 cmd , rest 运算符 所有的参数数组
 const [cmd, ...args] = command.split(' ');
 const cwd = process.cwd(); // 当前工作目录
