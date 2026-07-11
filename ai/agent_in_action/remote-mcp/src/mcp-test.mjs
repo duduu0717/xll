@@ -91,7 +91,7 @@ async function runAgentWithTools(query, maxIterations = 30) {
     }
   }
   // 最后一个消息是AI回复
-  // 方便改进
+  // 方便改进修正
   return messages[messages.length - 1].content
 }
 
