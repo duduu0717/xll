@@ -1,5 +1,5 @@
 ---
-name: 每日git提交
+name: g.push
 description: 一键完成每日提交:暂存所有改动,按「MMDD 日常更新」格式生成提交信息,并同时推送到 Gitee 和 GitHub。
 ---
 
