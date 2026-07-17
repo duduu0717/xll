@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>谢哥AI日报 - {{DATE}}</title>
+    <style>
+        :root {
+            --bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --text: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --tag-bg: #f0f0f5;
+            --tag-text: #3a3a3f;
+            --border: #e5e5ea;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
+            --accent: #0071e3;
+            --accent-light: #e8f4fd;
+            --gradient-start: #1a1a2e;
+            --gradient-end: #16213e;
+            --header-text: #ffffff;
+            --badge-tc: #0a9600;
+            --badge-verge: #7c00ff;
+            --badge-hn: #ff6600;
+            --badge-reddit: #ff4500;
+            --badge-other: #0071e3;
+            --divider: #f0f0f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, #0f3460 50%, var(--gradient-end) 100%);
+            color: var(--header-text);
+            padding: 48px 24px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(0,113,227,0.25) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(124,0,255,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(255,102,0,0.10) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .header .date-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 6px 20px;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header .news-count {
+            margin-top: 8px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        /* ── Container ── */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        /* ── Summary Bar ── */
+        .summary-bar {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            border: 1px solid var(--border);
+        }
+
+        .summary-bar .stats {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .summary-bar .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .summary-bar .stat-value {
+            font-weight: 700;
+            color: var(--text);
+            font-size: 20px;
+        }
+
+        /* ── Filter Tags (quick filter) ── */
+        .filter-section {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-right: 4px;
+        }
+
+        .filter-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-size: 12px;
+            cursor: pointer;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* ── News Grid ── */
+        .news-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ── News Card ── */
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .news-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        .news-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .source-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .source-tc { background: var(--badge-tc); }
+        .source-verge { background: var(--badge-verge); }
+        .source-hn { background: var(--badge-hn); }
+        .source-reddit { background: var(--badge-reddit); }
+        .source-other { background: var(--badge-other); }
+
+        .card-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-left: auto;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .card-summary {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .card-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            transition: all 0.2s ease;
+        }
+
+        .news-card:hover .card-tag {
+            background: #e8e8ed;
+        }
+
+        .card-arrow {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%) translateX(-4px);
+            font-size: 20px;
+            color: var(--accent);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            border-top: 1px solid var(--divider);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ── Empty State ── */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .header {
+                padding: 32px 16px 28px;
+            }
+            .header h1 {
+                font-size: 26px;
+                letter-spacing: 1px;
+            }
+            .header .subtitle {
+                font-size: 14px;
+            }
+            .container {
+                padding: 20px 12px 40px;
+            }
+            .news-card {
+                padding: 18px;
+            }
+            .card-title {
+                font-size: 16px;
+            }
+            .card-arrow {
+                display: none;
+            }
+            .summary-bar .stats {
+                gap: 16px;
+            }
+        }
+
+        /* ── Print ── */
+        @media print {
+            .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; }
+            .news-card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ════════════ HEADER ════════════ -->
+    <header class="header">
+        <div class="header-content">
+            <span class="header-icon">🤖</span>
+            <h1>谢哥AI日报</h1>
+            <p class="subtitle">每日精选 · AI行业资讯精华</p>
+            <div class="date-badge">📅 {{DATE}}</div>
+            <div class="news-count">共精选 {{COUNT}} 条重要资讯</div>
+        </div>
+    </header>
+
+    <!-- ════════════ MAIN CONTENT ════════════ -->
+    <div class="container">
+
+        <!-- Summary Bar -->
+        <div class="summary-bar">
+            <div class="stats">
+                <div class="stat-item">
+                    <span>📰</span>
+                    <span>精选资讯</span>
+                    <span class="stat-value">{{COUNT}}</span>
+                    <span>条</span>
+                </div>
+                <div class="stat-item">
+                    <span>🏷️</span>
+                    <span>覆盖领域</span>
+                    <span class="stat-value">{{TAG_COUNT}}</span>
+                    <span>个</span>
+                </div>
+                <div class="stat-item">
+                    <span>🔗</span>
+                    <span>来源媒体</span>
+                    <span class="stat-value">{{SOURCE_COUNT}}</span>
+                    <span>个</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Filter -->
+        <div class="filter-section">
+            <span class="filter-label">🏷️ 快速筛选：</span>
+            <span class="filter-tag active" data-filter="all">全部</span>
+            {{FILTER_TAGS}}
+        </div>
+
+        <!-- News Cards -->
+        <div class="news-grid">
+            {{NEWS_CARDS}}
+        </div>
+
+    </div>
+
+    <!-- ════════════ FOOTER ════════════ -->
+    <div class="footer">
+        <p>📡 数据来源：TechCrunch · The Verge · Hacker News · Reddit</p>
+        <p style="margin-top:4px;">Generated by 谢哥AI日报 · {{DATE}}</p>
+    </div>
+
+    <!-- ════════════ SCRIPTS ════════════ -->
+    <script>
+        // Quick filter functionality
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Toggle active state
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+                const cards = document.querySelectorAll('.news-card');
+
+                cards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = '';
+                    } else {
+                        const tags = card.dataset.tags || '';
+                        card.style.display = tags.includes(filter) ? '' : 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

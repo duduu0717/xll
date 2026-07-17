@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>谢哥AI日报 - 2026年07月17日</title>
+    <style>
+        :root {
+            --bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --text: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --tag-bg: #f0f0f5;
+            --tag-text: #3a3a3f;
+            --border: #e5e5ea;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
+            --accent: #0071e3;
+            --accent-light: #e8f4fd;
+            --gradient-start: #1a1a2e;
+            --gradient-end: #16213e;
+            --header-text: #ffffff;
+            --badge-tc: #0a9600;
+            --badge-verge: #7c00ff;
+            --badge-hn: #ff6600;
+            --badge-reddit: #ff4500;
+            --badge-other: #0071e3;
+            --divider: #f0f0f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.6;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #16213e 100%);
+            color: #fff; padding: 48px 24px 40px; text-align: center; position: relative; overflow: hidden;
+        }
+        .header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(0,113,227,0.25) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 50%, rgba(124,0,255,0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 100%, rgba(255,102,0,0.10) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        .header-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .header-icon { font-size: 48px; margin-bottom: 12px; display: block; animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .header h1 { font-size: 36px; font-weight: 700; letter-spacing: 2px; margin-bottom: 8px; }
+        .header .subtitle { font-size: 16px; opacity: 0.8; font-weight: 300; letter-spacing: 1px; }
+        .header .date-badge {
+            display: inline-block; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 20px;
+            margin-top: 16px; font-size: 14px; font-weight: 500;
+        }
+        .header .news-count { margin-top: 8px; font-size: 13px; opacity: 0.7; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
+
+        .summary-bar {
+            background: #fff; border-radius: 16px; padding: 20px 24px; margin-bottom: 28px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 16px;
+            flex-wrap: wrap; border: 1px solid #e5e5ea;
+        }
+        .summary-bar .stats { display: flex; gap: 24px; flex-wrap: wrap; }
+        .summary-bar .stat-item { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #6e6e73; }
+        .summary-bar .stat-value { font-weight: 700; color: #1d1d1f; font-size: 20px; }
+
+        .filter-section { margin-bottom: 24px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .filter-label { font-size: 13px; color: #6e6e73; font-weight: 500; margin-right: 4px; }
+        .filter-tag {
+            display: inline-block; padding: 4px 12px; border-radius: 14px; font-size: 12px;
+            cursor: pointer; background: #fff; border: 1px solid #e5e5ea; color: #6e6e73;
+            transition: all 0.2s ease; user-select: none;
+        }
+        .filter-tag:hover, .filter-tag.active { background: #0071e3; color: #fff; border-color: #0071e3; }
+
+        .news-grid { display: flex; flex-direction: column; gap: 16px; }
+
+        .news-card {
+            background: #fff; border-radius: 16px; padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid #e5e5ea;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            cursor: pointer; position: relative; text-decoration: none; color: inherit; display: block;
+        }
+        .news-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.10); transform: translateY(-2px); border-color: #0071e3;
+        }
+        .news-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+        .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+        .source-badge {
+            display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px;
+            font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #fff;
+        }
+        .source-tc { background: #0a9600; }
+        .source-verge { background: #7c00ff; }
+        .source-hn { background: #ff6600; }
+        .source-reddit { background: #ff4500; }
+        .source-other { background: #0071e3; }
+
+        .card-time { font-size: 12px; color: #6e6e73; margin-left: auto; }
+        .card-title { font-size: 18px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; color: #1d1d1f; }
+        .card-summary { font-size: 14px; color: #6e6e73; line-height: 1.7; margin-bottom: 14px; }
+        .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+        .card-tag {
+            display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 12px;
+            background: #f0f0f5; color: #3a3a3f; transition: all 0.2s ease;
+        }
+        .news-card:hover .card-tag { background: #e8e8ed; }
+
+        .card-arrow {
+            position: absolute; right: 24px; top: 50%;
+            transform: translateY(-50%) translateX(-4px); font-size: 20px; color: #0071e3;
+            opacity: 0; transition: all 0.3s ease; pointer-events: none;
+        }
+
+        .footer {
+            text-align: center; padding: 32px 20px; color: #6e6e73; font-size: 13px;
+            border-top: 1px solid #f0f0f5; max-width: 900px; margin: 0 auto;
+        }
+        .footer a { color: #0071e3; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        /* Hot badge */
+        .hot-badge {
+            display: inline-block; background: #ff3b30; color: #fff; font-size: 10px; font-weight: 700;
+            padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        @media (max-width: 640px) {
+            .header { padding: 32px 16px 28px; }
+            .header h1 { font-size: 26px; letter-spacing: 1px; }
+            .header .subtitle { font-size: 14px; }
+            .container { padding: 20px 12px 40px; }
+            .news-card { padding: 18px; }
+            .card-title { font-size: 16px; }
+            .card-arrow { display: none; }
+            .summary-bar .stats { gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-content">
+        <span class="header-icon">🤖</span>
+        <h1>谢哥AI日报</h1>
+        <p class="subtitle">每日精选 · AI行业资讯精华</p>
+        <div class="date-badge">📅 2026年07月17日</div>
+        <div class="news-count">共精选 12 条重要资讯</div>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- Summary Bar -->
+    <div class="summary-bar">
+        <div class="stats">
+            <div class="stat-item"><span>📰</span><span>精选资讯</span><span class="stat-value">12</span><span>条</span></div>
+            <div class="stat-item"><span>🏷️</span><span>覆盖领域</span><span class="stat-value">8</span><span>个</span></div>
+            <div class="stat-item"><span>🔗</span><span>来源媒体</span><span class="stat-value">5</span><span>个</span></div>
+        </div>
+    </div>
+
+    <!-- Quick Filter -->
+    <div class="filter-section">
+        <span class="filter-label">🏷️ 快速筛选：</span>
+        <span class="filter-tag active" data-filter="all">全部</span>
+        <span class="filter-tag" data-filter="大模型">大模型</span>
+        <span class="filter-tag" data-filter="AI芯片">AI芯片</span>
+        <span class="filter-tag" data-filter="开源模型">开源模型</span>
+        <span class="filter-tag" data-filter="融资">融资</span>
+        <span class="filter-tag" data-filter="AI应用">AI应用</span>
+        <span class="filter-tag" data-filter="商业竞争">商业竞争</span>
+        <span class="filter-tag" data-filter="AI治理">AI治理</span>
+        <span class="filter-tag" data-filter="中国AI">中国AI</span>
+    </div>
+
+    <!-- News Cards -->
+    <div class="news-grid">
+
+        <!-- Card 1: Gemini 3.5 Pro Delay -->
+        <a class="news-card" href="https://finance.eastmoney.com/a/202607173809446979.html" target="_blank" rel="noopener" data-tags="大模型 商业竞争 Google">
+            <div class="card-header">
+                <span class="source-badge source-other">EastMoney</span>
+                <span class="card-time">🔥 今日重磅</span>
+            </div>
+            <div class="card-title">Google Gemini 3.5 Pro 因代码能力未达标延期，股价暴跌4%</div>
+            <div class="card-summary">谷歌旗舰大模型Gemini 3.5 Pro确认延期数月发布，原因是代码生成能力未达到内部目标。消息公布后Alphabet股价重挫逾4%，凸显代码能力已成为当前AI军备竞赛的核心战场。谷歌内部工程师对复杂的跨部门协作表示沮丧，称"如同煮沸一片海洋"。</div>
+            <div class="card-tags">
+                <span class="card-tag">Google</span>
+                <span class="card-tag">大模型</span>
+                <span class="card-tag">代码生成</span>
+                <span class="card-tag">商业竞争</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 2: Moonshot Kimi K3 -->
+        <a class="news-card" href="https://www.moneycontrol.com/news/business/markets/chinese-new-ai-startup-moonshot-surprises-investors-sparks-fresh-selloff-in-tech-stocks-13976795.html" target="_blank" rel="noopener" data-tags="大模型 开源模型 中国AI">
+            <div class="card-header">
+                <span class="source-badge source-other">MoneyControl</span>
+                <span class="card-time">🔥 今日重磅</span>
+            </div>
+            <div class="card-title">中国AI公司Moonshot发布Kimi K3，2.8万亿参数开源模型震动全球</div>
+            <div class="card-summary">月之暗面（Moonshot）突然发布Kimi K3开源模型——2.8万亿参数、百万级上下文窗口，前沿基准测试超越Anthropic Opus 4.8。这是首个在部分指标上击败美国顶级模型的中国开源模型，引发亚洲半导体指数暴跌6%、软银股价重挫9%，被市场称为"DeepSeek时刻2.0"。</div>
+            <div class="card-tags">
+                <span class="card-tag">Moonshot</span>
+                <span class="card-tag">开源模型</span>
+                <span class="card-tag">中国AI</span>
+                <span class="card-tag">大模型</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 3: DeepSeek IPO -->
+        <a class="news-card" href="https://techcrunch.com/2026/07/14/deepseek-reportedly-in-talks-to-raise-1-5b-then-ipo/" target="_blank" rel="noopener" data-tags="融资 中国AI DeepSeek">
+            <div class="card-header">
+                <span class="source-badge source-tc">TechCrunch</span>
+                <span class="card-time">7月14日</span>
+            </div>
+            <div class="card-title">DeepSeek计划融资15亿美元后冲刺IPO，估值达710亿美元</div>
+            <div class="card-summary">中国大模型独角兽DeepSeek正在洽谈15亿美元新一轮融资，估值约710亿美元，并计划最早于2026年底或2027年IPO。此前一个月，DeepSeek刚完成首轮外部融资70亿美元。数据显示，6月份DeepSeek占Vercel AI网关全部Token流量的近23%。</div>
+            <div class="card-tags">
+                <span class="card-tag">DeepSeek</span>
+                <span class="card-tag">融资</span>
+                <span class="card-tag">IPO</span>
+                <span class="card-tag">中国AI</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 4: Apple Intelligence China -->
+        <a class="news-card" href="https://techcrunch.com/2026/07/15/apple-intelligence-approved-for-launch-in-china-with-alibabas-qwen-ai/" target="_blank" rel="noopener" data-tags="AI应用 AI治理 Apple 中国AI">
+            <div class="card-header">
+                <span class="source-badge source-tc">TechCrunch</span>
+                <span class="card-time">7月15日</span>
+            </div>
+            <div class="card-title">Apple Intelligence获中国批准，搭载阿里Qwen模型落地</div>
+            <div class="card-summary">苹果生成式AI服务正式获得中国网信办批准，将在国内搭载阿里巴巴通义千问（Qwen）模型。此前苹果曾接触百度、DeepSeek和字节跳动，最终选定阿里为合作伙伴。这标志着美国AI巨头首次通过本土模型合作方式进入中国市场。</div>
+            <div class="card-tags">
+                <span class="card-tag">Apple</span>
+                <span class="card-tag">阿里Qwen</span>
+                <span class="card-tag">AI合规</span>
+                <span class="card-tag">中国市场</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 5: Microsoft vs OpenAI/Anthropic -->
+        <a class="news-card" href="https://techcrunch.com/2026/07/15/microsoft-is-reportedly-training-salespeople-to-talk-down-openai-and-anthropic/" target="_blank" rel="noopener" data-tags="商业竞争 Microsoft OpenAI">
+            <div class="card-header">
+                <span class="source-badge source-tc">TechCrunch</span>
+                <span class="card-time">7月15日</span>
+            </div>
+            <div class="card-title">微软培训销售团队贬低OpenAI和Anthropic，加速替换自家模型</div>
+            <div class="card-summary">微软内部战略会议曝光：高管明确指示销售团队在与客户沟通时贬低OpenAI、Anthropic和Google的产品。微软正将Word、Excel等旗舰应用中的OpenAI模型替换为自研模型以削减成本。曾经的"铁杆盟友"关系正在演变为直接竞争。</div>
+            <div class="card-tags">
+                <span class="card-tag">Microsoft</span>
+                <span class="card-tag">OpenAI</span>
+                <span class="card-tag">商业竞争</span>
+                <span class="card-tag">自研模型</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 6: Anthropic + Samsung Chips -->
+        <a class="news-card" href="https://finance.sina.com.cn/roll/2026-07-03/doc-inifnxpa2357765.shtml" target="_blank" rel="noopener" data-tags="AI芯片 Anthropic 三星">
+            <div class="card-header">
+                <span class="source-badge source-other">新浪财经</span>
+                <span class="card-time">7月3日</span>
+            </div>
+            <div class="card-title">打破算力桎梏：Anthropic联手三星自研AI芯片</div>
+            <div class="card-summary">Anthropic与三星展开早期谈判，计划联合开发专为Claude模型优化的定制AI芯片，以减少对NVIDIA、Google和Amazon通用芯片的依赖。此举延续了AI头部公司自研芯片的行业趋势，此前Meta、OpenAI均已布局定制硅芯片。</div>
+            <div class="card-tags">
+                <span class="card-tag">Anthropic</span>
+                <span class="card-tag">三星</span>
+                <span class="card-tag">AI芯片</span>
+                <span class="card-tag">自研</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 7: Meta Iris Chip -->
+        <a class="news-card" href="https://www.theverge.com/archives/ai-artificial-intelligence/2026/7/1" target="_blank" rel="noopener" data-tags="AI芯片 Meta 自研">
+            <div class="card-header">
+                <span class="source-badge source-verge">The Verge</span>
+                <span class="card-time">7月中旬</span>
+            </div>
+            <div class="card-title">Meta自研AI芯片"Iris"计划9月量产，加入去NVIDIA化浪潮</div>
+            <div class="card-summary">Meta宣布将于9月开始量产自研AI芯片"Iris"，该芯片隶属MTIA系列，目标是在训练和推理环节减少对NVIDIA和AMD的依赖。此前Meta CEO扎克伯格坦言公司AI转型不及预期，已裁员8000人并调岗7000人至AI部门，今年AI基础设施支出高达1450亿美元。</div>
+            <div class="card-tags">
+                <span class="card-tag">Meta</span>
+                <span class="card-tag">AI芯片</span>
+                <span class="card-tag">Iris</span>
+                <span class="card-tag">自研</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 8: Google AI Mode -->
+        <a class="news-card" href="https://techcrunch.com/2026/07/16/googles-ai-mode-now-lets-you-link-and-interact-with-select-apps/" target="_blank" rel="noopener" data-tags="AI应用 Google 生态整合">
+            <div class="card-header">
+                <span class="source-badge source-tc">TechCrunch</span>
+                <span class="card-time">7月16日</span>
+            </div>
+            <div class="card-title">Google AI Mode整合Instacart、Canva等第三方应用生态</div>
+            <div class="card-summary">Google为其对话式AI搜索体验AI Mode新增第三方应用集成功能，用户可直接在AI对话中操作Instacart（生鲜配送）、Canva（在线设计）和YouTube Music等应用。这标志着Google正将AI从信息检索工具升级为覆盖生活服务的"超级入口"。</div>
+            <div class="card-tags">
+                <span class="card-tag">Google</span>
+                <span class="card-tag">AI应用</span>
+                <span class="card-tag">生态整合</span>
+                <span class="card-tag">AI Mode</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 9: Apple Siri AI Beta -->
+        <a class="news-card" href="https://techcrunch.com/2026/07/14/apple-opens-its-new-siri-ai-to-everyone-with-the-ios-27-public-beta/" target="_blank" rel="noopener" data-tags="AI应用 Apple Siri">
+            <div class="card-header">
+                <span class="source-badge source-tc">TechCrunch</span>
+                <span class="card-time">7月14日</span>
+            </div>
+            <div class="card-title">iOS 27公测版发布，史上最强Siri AI全面开放</div>
+            <div class="card-summary">Apple发布iOS 27公测版，全新AI驱动的Siri正式向所有用户开放体验。新版Siri可访问设备端数据（邮件、照片、消息），支持屏幕感知问答，并拥有独立App。同时登陆iPhone、iPad、Mac、Apple Watch、CarPlay、AirPods、Apple TV和Vision Pro全设备生态。</div>
+            <div class="card-tags">
+                <span class="card-tag">Apple</span>
+                <span class="card-tag">Siri</span>
+                <span class="card-tag">AI助手</span>
+                <span class="card-tag">iOS27</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 10: WAIC + Global AI Body -->
+        <a class="news-card" href="https://sana.sy/en/miscellaneous/2330053/" target="_blank" rel="noopener" data-tags="AI治理 国际合作 中国AI">
+            <div class="card-header">
+                <span class="source-badge source-other">SANA</span>
+                <span class="card-time">7月17日</span>
+            </div>
+            <div class="card-title">29国签署成立全球AI合作组织，WAIC上海盛大开幕</div>
+            <div class="card-summary">第九届世界人工智能大会（WAIC）今日在上海开幕，主题为"AI合作共创美好未来"。29个国家签署协议成立全球人工智能合作组织（总部设于上海），创始成员包括俄罗斯、巴西等。同期展示了中国自研的L3级AI手机等300余项首发产品。</div>
+            <div class="card-tags">
+                <span class="card-tag">WAIC</span>
+                <span class="card-tag">AI治理</span>
+                <span class="card-tag">国际合作</span>
+                <span class="card-tag">中国AI</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 11: Suno Leak -->
+        <a class="news-card" href="https://www.aibase.com/news/29669" target="_blank" rel="noopener" data-tags="AI音乐 版权 安全">
+            <div class="card-header">
+                <span class="source-badge source-hn">Hacker News</span>
+                <span class="card-time">7月17日</span>
+            </div>
+            <div class="card-title">Suno源代码遭黑客泄露，大规模爬取YouTube音乐数据曝光</div>
+            <div class="card-summary">AI音乐生成平台Suno遭遇供应链攻击，黑客"ellie.191"窃取并公开其源代码，曝光Suno大规模爬取YouTube Music、Deezer和Genius等平台超过62,000小时音频用于模型训练。此事件将加剧AI版权诉讼压力，也为生成式AI的数据合规问题敲响警钟。</div>
+            <div class="card-tags">
+                <span class="card-tag">Suno</span>
+                <span class="card-tag">AI音乐</span>
+                <span class="card-tag">版权</span>
+                <span class="card-tag">数据安全</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- Card 12: Open Source Shift -->
+        <a class="news-card" href="https://techcrunch.com/2026/07/14/the-real-ai-race-may-no-longer-be-at-the-frontier-open-models-hugging-face/" target="_blank" rel="noopener" data-tags="开源模型 中国AI HuggingFace">
+            <div class="card-header">
+                <span class="source-badge source-tc">TechCrunch</span>
+                <span class="card-time">7月14日</span>
+            </div>
+            <div class="card-title">HuggingFace数据揭示格局之变：中国开源模型占全球下载量41%</div>
+            <div class="card-summary">HuggingFace最新数据显示，中国开源模型已占平台总下载量的41%，OpenRouter上前6名全部为中国开源模型。CEO Clement Delangue认为未来大多数AI生产工作负载将运行在可定制的开源或私有模型上，而非闭源API。微软CEO纳德拉也公开警告企业不要被单一模型供应商锁定。</div>
+            <div class="card-tags">
+                <span class="card-tag">开源模型</span>
+                <span class="card-tag">中国AI</span>
+                <span class="card-tag">HuggingFace</span>
+                <span class="card-tag">行业趋势</span>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
+    </div>
+</div>
+
+<div class="footer">
+    <p>📡 数据来源：TechCrunch · The Verge · Hacker News · Reddit · 各科技媒体</p>
+    <p style="margin-top:4px;">Generated by 谢哥AI日报 · 2026年07月17日</p>
+</div>
+
+<script>
+    document.querySelectorAll('.filter-tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const filter = this.dataset.filter;
+            document.querySelectorAll('.news-card').forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = '';
+                } else {
+                    const tags = card.dataset.tags || '';
+                    card.style.display = tags.includes(filter) ? '' : 'none';
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

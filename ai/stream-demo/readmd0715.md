@@ -19,3 +19,13 @@
 Uint8Array [十进制数]
 0-255 之间无符号整数
 安排解码
+
+## server
+### 后端返回的数据流
+- 二进制文本流
+- \n 换行符 每个数据块（data：）一行结束
+兼顾相应速度和传输效率
+ llm生成token时 json短一点
+ llm再生成一些token,json格式化
+ 一次性发送多少个data：不确定的，可能是一行，也可能是多行
+- data：{} json格式文本completion 差不多结构 
