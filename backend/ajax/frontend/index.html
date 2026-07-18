@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul id="todos"></ul>
+  <button id="btn">获取todos</button>
+  <script>
+    console.log('start request')
+    document.getElementById('btn').addEventListener('click', function () {
+      console.log('点击按钮')
+    })
+    // fetch('http://localhost:3000/todos')
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     console.log(data)
+    //   })
+
+    //fetch 的前辈
+    // 输入url，点击a标签
+    //底层本质是js可以主动的去发起接口http请求，当前页面还在
+    //fetch/xhr 请求接口，动态的更新页面 web2.0时代
+    const xhr = new XMLHttpRequest()
+    //打开一个http通道
+    xhr.open('GET', 'http://localhost:3000/todos', true)//false 同步请求，true 异步请求
+    // 发送请求
+
+
+    xhr.onreadystatechange = function () {
+      console.log(xhr.readyState, xhr.status)
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // 
+        const todos = JSON.parse(xhr.responseText)
+        document.getElementById('todos').innerHTML = todos.map(todo => `<li>${todo.title}</li>`).join('')
+
+      }
+
+    }
+    xhr.send()
+    console.log('end request')
+
+  </script>
+</body>
+
+</html>

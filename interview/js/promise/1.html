@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 只要执行 fetch(xxx)，请求瞬间发起，Promise 只是用来「接收未来异步结果」的容器。
+    // const streetCarsPromise=fetch('http://data.ratp.fr/api/datasets/1.0/search/?q=paris')
+    // console.log(streetCarsPromise);
+    const getStory = async () =>
+      fetch('https://v1.hitokoto.cn/?c=i&encode=json')
+    const getRatp = async () =>
+      fetch('https://data.ratp.fr/api/datasets/1.0/search/?q=paris')
+    async function main() {
+      // 不存在依赖关系,并行以下promise一系列静态方法
+      // const story = await getStory()
+      // const rate = await getRatp()
+      //并发的效果
+      //参数是promise数组
+      //不管谁先执行，resolve的结果会按promise数组顺序返回
+      //   const res = await Promise.all([getStory(), getRatp()])
+      //   console.log(res)
+      //   const jsonPromise = res.map(item => item.json())
+      //   const result = await Promise.all(jsonPromise)
+      //   console.log(result)
+      // }
+      Promise.all([getStory(), getRatp()])
+        .then(response => {
+          return Promise.all(response.map(res => res.json()))
+        })
+        .catch(response => {
+          console.log(response)
+        })
+    }
+    main()
+  </script>
+</body>
+
+</html>
