@@ -64,7 +64,6 @@ const update = async () => {
       // json 字符串 多行数据 
       // 一次发送一行， 也可能发送多行 llm 计算速度和任务
       // data: {开始 又有数据来了}
-      // data: {开始 又有数据来了}
 
       const lines = chunkValue.split('\n')
       // 严谨性 \n 不只一个  也可能有多个
