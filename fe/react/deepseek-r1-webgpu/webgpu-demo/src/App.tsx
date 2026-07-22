@@ -14,19 +14,23 @@ function App() {
   // 不需要dom 编程  ->  数据状态（响应式，调用第二个函数，修改状态， 界面会跟着变）
   //数据不同状态 -> 界面不同状态 
   // null初始值 ，loading 加载中 ready  llm准备好了
-  const [status, setStatus] = useState(null)
+  const [input, setInput] = useState('')
+  const [status, setStatus] = useState("ready")
   const [error, setError] = useState(null)
   // 加载信息
   const [loadingMessage, setLoadingMessage] = useState("开始加载")
-  const [progressItems, setProgressItems] = useState([{
-    text: 'model.onnx',
-    percentage: 0,
-    total: 100
-  }, {
-    text: 'model2.onnx',
-    percentage: 10,
-    total: 100
-  }])
+  const [progressItems, setProgressItems] = useState([
+
+  ])
+  // const [progressItems, setProgressItems] = useState([{
+  //   text: 'model.onnx',
+  //   percentage: 0,
+  //   total: 100
+  // }, {
+  //   text: 'model2.onnx',
+  //   percentage: 10,
+  //   total: 100
+  // }])
   //组件生命周期  副作用 ：组件挂载只有，附带着做什么
   useEffect(() => {
     console.log('挂载完成')
@@ -37,6 +41,10 @@ function App() {
   // ！取反  navigator.gpu 不支持时 undefined
   // ！! 再取反，一定可以成 true | false 不需要判断是否为 undefined
   const IS_WEBGPU_AVAILABLE = !!navigator.gpu;
+  // llm 处理
+  const onEnter = () => {
+    console.log(input)
+  }
   console.log('组件函数执行')
   //js 脚本 数据逻辑交互
   // 返回 html jsx
@@ -50,7 +58,8 @@ function App() {
         <div className="flex flex-col items-center mb-1 max-w-[400px] text-center">
           {/* []代表指定样式大小 */}
           <h1 className="text-4xl font-bold mb-1">Deepseek R1 WebGPU Demo</h1>
-          <h2 className="font-semibold">a next generation reasoning model that run locally in your browser with WebGPU acceleration</h2>
+          <h2 className="font-semibold">a next generation reasoning model
+            that run locally in your browser with WebGPU acceleration</h2>
         </div>
         <div className="flex flex-col items-center px-4 ">
           <p className="mx-w-[510px] mb-4"><br />you are about to load the model,
@@ -83,7 +92,8 @@ function App() {
               <p className="text-sm">{error}</p ></div>)
           }
           {/* vue 添加事件 @click  react onclick 不要去发明  大佬的骄傲 */}
-          <button className="border px-4 py-2 rounded-lg bg-blue-400 text-white hover:
+          <button className="border px-4 py-2 rounded-lg 
+          bg-blue-400 text-white hover:
           bg-blue-500 disabled:cursor-not-allowed select-none"
             disabled={status !== null || error !== null} onClick={() => {
               setStatus('loading')
@@ -109,7 +119,7 @@ function App() {
                 // 自闭和标签
                 // App的子组件
                 <Progress
-                  key={text}
+                  key={i}
                   text={text}
                   percentage={percentage}
                   total={total} />
@@ -118,6 +128,39 @@ function App() {
           </div>
         )
       }
+      {/* 聊天框 */}
+      <div className="mt-2 border border-gray-300 rounded-lg 
+      w-[600px] max-w-[80%] max-h-[200px] mx-auto relative mb-3 flex">
+        <textarea className="w-[550px] dark-gray-700 px-3 py-4 rounded-lg 
+        bg-transparent border-none outline-hidden disabled:text-gray-400
+        disabled:placeholder-gray-200"
+          placeholder="Type your message..."
+          rows={1}
+          disabled={status !== 'ready'}
+          // react 不支持双向绑定，性能不太好
+          value={input}
+          onInput={
+            (e) => {
+              // e.target 事件对象上target 属性一定有，但是不一定有value属性
+              // e 是通用的事件对象
+              // e.target 通用的事件目标对象 不一定有value
+              // 断言 敢于断定 as ts 关键字
+              const target = e.target as HTMLTextAreaElement
+              setInput(target.value)
+            }
+          }
+          onKeyDown={(e) => {
+            if (input.length > 0 && e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault()
+              onEnter()
+            }
+          }}
+          title={status === 'ready'
+            ? 'Model is ready'
+            : 'Model not loaded yet'}>
+
+        </textarea>
+      </div>
     </div>) : (<div>您的浏览器不支持 WebGPU 加速，请升级浏览器或使用其他浏览器</div>)
   )
 }
