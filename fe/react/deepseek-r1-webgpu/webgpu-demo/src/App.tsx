@@ -15,7 +15,7 @@ function App() {
   //数据不同状态 -> 界面不同状态 
   // null初始值 ，loading 加载中 ready  llm准备好了
   const [input, setInput] = useState('')
-  const [status, setStatus] = useState("ready")
+  const [status, setStatus] = useState(null)
   const [error, setError] = useState(null)
   // 加载信息
   const [loadingMessage, setLoadingMessage] = useState("开始加载")
