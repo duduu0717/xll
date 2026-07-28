@@ -110,7 +110,7 @@ async function main() {
     console.log('connect to milvus ...')
     await client.connectPromise// 先连接，先握手
     console.log('connect to milvus success')
-    await answerDiaryQuestion('我最近做了什么让我很快乐的事情', 2)
+    await answerDiaryQuestion('我最近做了拜师的事情', 2)
   } catch (error) {
   }
 }

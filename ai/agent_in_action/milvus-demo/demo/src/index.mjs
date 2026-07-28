@@ -83,8 +83,6 @@ async function main() {
     dimension: VECTOR_DIM,
     auto_id: true,
   })
-  console.log('创建集合成功')
-
   console.log('collection create success')
   console.log('create index ...')
 
