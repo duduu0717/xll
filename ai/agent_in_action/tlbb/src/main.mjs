@@ -6,12 +6,15 @@ import {
   MetricType,
   IndexType,
 } from '@zilliz/milvus2-sdk-node'
+
 import {
   OpenAIEmbeddings
 } from '@langchain/openai'
+
 import {
   EPubLoader
 } from '@langchain/community/document_loaders/fs/epub'
+
 import {
   RecursiveCharacterTextSplitter
 } from '@langchain/textsplitters'
@@ -20,6 +23,7 @@ const COLLECTION_NAME = 'ebook'// 编程习惯
 const VECTOR_DIM = 1024
 const CHUNK_SIZE = 500
 const EPUB_PATH = '../天龙八部.epub'
+
 // const BOOK_NAME = parse(EPUB_PATH).name
 const { name: BOOK_NAME } = parse(EPUB_PATH)// 解构赋值
 console.log(BOOK_NAME)
@@ -155,7 +159,6 @@ async function loadAndProcessEPubStreaming(bookID) {
         chapterIndex + 1
       )
       totalInsertCount += insertCount
-      console.log(`已插入${totalInsertCount}个chunk向量`)
     }
     console.log(`共插入${totalInsertCount}个chunk向量`)
     return totalInsertCount
