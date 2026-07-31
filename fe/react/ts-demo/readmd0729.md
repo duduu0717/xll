@@ -55,3 +55,13 @@ ts里type和interface都可以用于声明一个类型
 1. 挂载后 mounted
 2. 更新后 updated
 3. 卸载前 打扫工作
+
+
+## 前端本地存储
+- 浏览器中 有一个区间用于存内容
+ - 浏览器缓存静态资源
+ - localStroge key：value 配置
+   关键数据 5M左右大小
+    - setItem(key,字符串,JSON.stringify(value))
+    - getItem(key)
+ - 前端也有类似Mysql数据库 存更多的数据 IndexDB
