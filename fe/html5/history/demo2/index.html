@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPA</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#/page1">首页1</a></li>
+        <li><a href="#/page2">页面2</a></li>
+        <li><a href="#/page3">页面3</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+  </main>
+  <footer>
+  </footer>
+  <div id="container"></div>
+  <script>
+    // 挂载点 只需要动态修改它
+    // spa 极大的提升了用户体验
+    class HashRouter {
+      constructor() {
+        // this指向实例
+        this.routers = {}// 前后端分离，前端也要有独立的路由
+        // 传统的多页开发，前端没有独立的路由
+        window.addEventListener('hashchange',
+          // this指向事件发生的对象 window
+          // apply call 手动指定this 区别是参数
+          // bind 会返回一个新函数
+          this.load.bind(this)
+        )
+      }
+      register(hash, callback) {
+        this.routers[hash] = callback
+      }
+      load() {
+        // 对象的属性或者方法
+        console.log(this)// this指向window
+        let hash = window.location.hash.slice(1)
+        // console.log(hash)
+        let handler
+        if (!hash) {
+
+        } else {
+          handler = this.routers[hash]
+        }
+        handler.call(this)
+      }
+    }
+    let router = new HashRouter()
+    let container = document.getElementById('container')
+    router.register('/page1', () => container.innerHTML = '页面1')
+    router.register('/page2', () => container.innerHTML = '页面2')
+    router.register('/page3', () => container.innerHTML = '页面3')
+  </script>
+</body>
+
+</html>
