@@ -5,9 +5,11 @@ import {
 
 import {
   // location.hash
-  HashRouter as Router, // 前端路由 #/ hashchange
-  Routes,
-  Route
+  // 前端路由有两种形式，hash路由和browser路由
+  BrowserRouter as Router, // 前端路由 #/ hashchange
+  Routes,// 路由配置组件数组
+  Route,// 路由组件
+  Navigate
 } from 'react-router-dom'
 import Navigation from './components/Navigation'
 // spa 动态的切换多个页面
@@ -22,6 +24,10 @@ const UserProfile = lazy(() => import('./pages/UserProfile'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Products = lazy(() => import('./pages/Products'))
 const ProductDetail = lazy(() => import('./pages/Products/detail'))
+const NewProduct = lazy(() => import('./pages/Products/New'))
+const Login = lazy(() => import('./pages/Login'))
+const Pay = lazy(() => import('./pages/Pay'))
+const ProtectRoute = lazy(() => import('./ProtectRoute'))
 
 const App = () => {
   return (
@@ -40,14 +46,30 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/user/:id" element={<UserProfile />} />
-              {/* 404 Not Found */}
-              {/* *贪婪匹配所有，最后404兜底 */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/pay" element={
+                // 门禁保安
+                // pay 要进去的页面
+                // children 用来定制化组件
+                <ProtectRoute>
+                  {/* children */}
+                  <Pay />
+                </ProtectRoute>
+              } />
+
               {/* 多级路由，嵌套路由 */}
               <Route path="/products" element={<Products />}>
                 {/* 二级路由 */}
                 <Route path=":productId" element={<ProductDetail />} />
                 <Route path="new" element={<NewProduct />} />
               </Route>
+              {/* 有个活动/game /result 活动结束
+              /home 首页 重定向到/ 
+              user/：id 是否登录？ 未登录重定向到/login 登陆成功后重定向到/user/：id */}
+              <Route path="/old-path" element={<Navigate to="/new-path" replace />} />
+
+              {/* 404 Not Found */}
+              {/* *贪婪匹配所有，最后404兜底 */}
               <Route path="*" element={<NotFound />} />
 
             </Routes>
