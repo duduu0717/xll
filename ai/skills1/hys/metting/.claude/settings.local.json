@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(gh repo *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebSearch",
+      "Bash(curl -s --connect-timeout 10 https://api.github.com/repos/duduu0717/skills/contents/skills/skill-creator)"
+    ]
+  }
+}
