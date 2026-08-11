@@ -1,0 +1,4 @@
+interface:
+  display_name: "Submit xll_ai"
+  short_description: "Safely commit and sync xll_ai changes"
+  default_prompt: "Use $submit-xll-ai to review, commit, push, and verify only xll_ai changes on Gitee and GitHub."
