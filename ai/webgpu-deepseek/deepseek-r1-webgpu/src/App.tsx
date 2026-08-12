@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import Progress from "./components/Progress";
 
 const IS_WEBGPU_AVAILABLE = !!navigator.gpu;
 const STICKY_SCROLL_THRESHOLD = 120;
@@ -15,6 +16,7 @@ function App() {
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
   const [loadingMessage, setLoadingMessage] = useState("");
+  const [progressItems, setProgressItems] = useState([]);
 
   // Inputs and outputs
   const [messages, setMessages] = useState([]);
@@ -38,6 +40,9 @@ function App() {
           break;
         // 初始一个下载文件
         case "initiate":
+          // 给函数为了获得最新状态
+          // 多个文件并发下载时进度回调频繁触发
+          setProgressItems((prev) => [...prev, e.data]);
           break;
         // 下载进度
         case "progress":
@@ -147,6 +152,14 @@ function App() {
           <>
             <div className="w-full max-w-[500px] text-left mx-auto p-4 bottom-0 mt-auto">
               <p className="text-center mb-1">{loadingMessage}</p>
+              {progressItems.map(({ file, progress, total }, i) => (
+                <Progress
+                  key={i}
+                  text={file}
+                  percentage={progress}
+                  total={total}
+                />
+              ))}
             </div>
           </>
         )}
