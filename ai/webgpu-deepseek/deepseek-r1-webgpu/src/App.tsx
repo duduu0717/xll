@@ -4,6 +4,7 @@ import ArrowRightIcon from "./components/icons/ArrowRightIcon";
 import StopIcon from "./components/icons/StopIcon";
 
 const IS_WEBGPU_AVAILABLE = !!navigator.gpu;
+
 const STICKY_SCROLL_THRESHOLD = 120;
 const EXAMPLES = [
   "Solve the equation x^2 - 3x + 2 = 0",

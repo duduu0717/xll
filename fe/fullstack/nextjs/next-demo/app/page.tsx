@@ -1,0 +1,10 @@
+// 服务器端组件
+// 在服务器端 react node 方式运行
+// jsx -> html
+export default function Home() {
+  return (
+    <div>
+      <h1>Hello World</h1>
+    </div>
+  );
+}

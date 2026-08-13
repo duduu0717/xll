@@ -1,4 +1,0 @@
-interface:
-  display_name: "学习复习文章生成器"
-  short_description: "将学习目录整理为系统复习文章、代码讲解与 Mermaid 图解"
-  default_prompt: "Use $generating-study-review-articles to turn an xll_ai learning directory into a beginner-friendly Chinese Juejin review article with at least one Mermaid diagram."
