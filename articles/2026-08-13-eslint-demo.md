@@ -72,7 +72,7 @@ export default defineConfig([
 ]);
 ```
 
-`defineConfig([...])` 接收一个配置对象数组；`files` 指定作用范围，`extends: ["js/recommended"]` 先继承一套推荐规则，`rules` 再在它之上覆盖你想要的几条。
+`defineConfig([...])` 接收一个配置对象数组；`files` 指定作用范围，`extends: ["js/recommended"]` 先继承一套推荐规则，`rules` 再在它之上覆盖你想要的几条。`languageOptions.globals: globals.browser` 这一行容易被忽略，但它很关键：它把浏览器内置对象（`console`、`window` 等）声明为「已知全局」，否则 `no-undef` 规则会对 `console.log` 报「未定义变量」。这也是为什么下面 `no-console` 只是 warn 而不是 `no-undef` 报错——两者管的是不同的事。
 
 ## 三、--fix 参数（核心）：机器管格式，人管语义
 
@@ -184,6 +184,8 @@ rules: {
 ```
 
 这里 `"no-var": 2` 和 `"no-console": 1` 是简写级别；后三条是数组形式带配置项。
+
+注意源文件第 14 行 `"no-console": 1` 后面紧跟着注释 `// 开发时用，上线不用`——这正是它设为 warn 而非 error 的**真实意图**：开发阶段保留 `console` 方便调试，发布前再关掉，所以报错级别只到 warn、不阻断流水线。这条内联注释比任何教程都直白，学源码时值得多看一眼。
 
 `quotes` 的配置项取值是 `"double"`（双引号）/ `"single"`（单引号）/ `"backtick"`（反引号）。**一个新手常踩的盲区**：`quotes` 只管「普通字符串字面量」的引号风格，模板字符串 `` `...${x}` `` **不受 quotes 约束**——因为模板字符串有自己的用途（字符串插值），ESLint 不会因为它长得像「反引号字符串」就强行改成双引号。所以在 eslint-demo 里，即使你写 `const tip = \`级别=${level}\``，quotes: "double" 也不会报错。误以为 quotes 能统一所有字符串引号，是初学者最常见的误解。
 
