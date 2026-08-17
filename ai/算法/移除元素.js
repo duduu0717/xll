@@ -14,20 +14,5 @@ var removeElement = (nums, val) => {
   return k;  // k 就是新数组的长度
 };
 
-// let nums = [1, 2, 3, 4];
-// let k = 0;
-// let i = 2;
-
-// nums[k++] = nums[i];
-S
-// 执行过程：
-// 1. k 当前值是 0，所以 nums[0] = nums[2] → nums[0] = 3
-2. k 自增，k 变成 1
-
-结果：
-nums = [3, 2, 3, 4] k = 1
-结果：
-nums = [3, 2, 3, 4]
-k = 1
 
 
