@@ -11,5 +11,3 @@ NestFactory  蜜雪冰城 满足做App的需要
 MixueFactory.create(type) 即可
 由于工厂里的每个类都实现了想同的show 接口 
 有工厂类生产出来的类，可以放心的直接调用。
-
-## 
