@@ -28,3 +28,22 @@ nest run start
 装饰器模式在不修改原有对象的前提下，动态给对象叠加额外功能。
 @
 class 
+
+## 开发流程
+AppModule import 里面植入我们的Module 
+Module 是nestjs 的独立业务模块 
+  xx.module.ts 定义 组装
+  xx.controller.ts 控制器 
+  xx.service.ts  provider 数据业务 
+    @Injectable() 自动依赖注入 
+    自动注入controller 或任何用它的地方 
+    controller 里的一个属性 
+    MVC 本质
+    装饰器模式用到极致 
+- NotFoundException
+  nestjs 内置的错误类
+  请说下你是如何处理后端报错的?
+  try catch finnaly  ts独苗 线程挂
+  nest.js 提供了各种错误类，标准化错误输出
+  statusCode 状态码
+  message 消息
