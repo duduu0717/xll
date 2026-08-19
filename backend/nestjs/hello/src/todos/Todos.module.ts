@@ -1,16 +1,11 @@
+// Todos Module 的定义文件 
 import { Module } from '@nestjs/common';
-// 控制器 检测前端用户输入，一些控制逻辑 
-import { AppController } from './app.controller';
-// 数据库业务， 一些复杂业务  CRUD service 层 
-import { AppService } from './app.service';
-import { TodosModule } from './todos/todos.module';
-// 复杂， 说明书 照着做
-// 装饰器模式
-// 快速的给类添加一些行为或方法，
-// ts 支持
+import { TodosController } from './Todos.controller';
+import { TodosService } from './Todos.service';
+// 大型后端框架，MVC  试图层 不可以直接去数据库查数据 
+// View Controller Model 
 @Module({
-  imports: [TodosModule], // 依赖外界？
-  controllers: [AppController], // 控制器 校验，简单逻辑，
-  providers: [AppService], // data service 复杂业务 
+  controllers: [TodosController],
+  providers: [TodosService]
 })
-export class AppModule { }
+export class TodosModule { }

@@ -44,7 +44,7 @@ docker run
   80是nginx的监视端口
   http://localhost:80
   将用户浏览器的输入， 代理给容器的80端口
-  -v  C:\Users\rog\Desktop\workspace\xll_ai\backend\docker\demo\nginx.conf:/etc/nginx/nginx.conf
+  -v  "C:\Users\rog\Desktop\work space\xll_ai\backend\docker\demo\nginx.conf:/etc/nginx/nginx.conf"
   nginx.conf 配置文件(本机)
   80 代理1314端口
   -d nginx
@@ -57,8 +57,8 @@ docker run
 - nginx
  反向代理
 
- 用户上网intent -> browser（用户浏览器）正向代理http -> local：80 -> docker -p（ort）：container（80） -> -v映射
- 配置文件（local：/etc/nginx/nginx.conf） -> -d(后台运行)
+ 用户上网 -> browser（用户浏览器）正向代理http -> local：80 -> docker -p（ort）：container（80） -> -v映射
+ 配置文件（local：/etc/nginx/nginx.conf 代理端口服务） -> -d(后台运行)
  nginx(image) -> nginx:80(nginx.conf 代理端口服务) <-反向代理 ：1314
 
  nginx：80（nginx.conf 代理端口服务） <-反向代理 ：1314
@@ -73,4 +73,12 @@ docker run
  docker rmi nginx
 
 ## mysql
- docker pull mysql:8.0
+ docker pull mysql:8.0## Docker 
+- 本地安装了mysql 
+- docker pull mysql
+  版本不一样 
+  docker run -d --name mysql-demo -p 3307:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:8.0
+
+  docker exec -it mysql-demo /bin/bash
+  进入容器 linux 终端
+  mysql -uroot -p123456
